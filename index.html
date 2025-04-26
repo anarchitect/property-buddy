@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Chatbot</title>
+</head>
+<body>
+    <h2>Chat with Azure OpenAI Bot</h2>
+
+    <input id="userInput" type="text" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <div id="chatbox"></div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value;
+            input.value = ""; // clear input field
+
+            // Send user message to backend
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_message: message })
+            });
+
+            const data = await response.json();
+
+            // Display in chatbox
+            const chatbox = document.getElementById('chatbox');
+            chatbox.innerHTML += `<p><b>You:</b> ${message}</p>`;
+            chatbox.innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
+        }
+    </script>
+</body>
+</html>
