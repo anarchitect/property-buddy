@@ -2,38 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Chatbot</title>
+    <title>Chatbot with History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: #f0f2f5;
+        }
+        #chatbox {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .message {
+            margin: 10px 0;
+            max-width: 70%;
+            padding: 12px;
+            border-radius: 12px;
+            word-wrap: break-word;
+        }
+        .user {
+            background: #0078d4;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .bot {
+            background: #e5e5ea;
+            color: black;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        #inputArea {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #ccc;
+        }
+        #userInput {
+            flex-grow: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-right: 10px;
+        }
+        #sendButton {
+            padding: 10px 20px;
+            background: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #sendButton:hover {
+            background: #005ea2;
+        }
+    </style>
 </head>
 <body>
-    <h2>Chat with Azure OpenAI Bot</h2>
 
+<div id="chatbox"></div>
+
+<div id="inputArea">
     <input id="userInput" type="text" placeholder="Type your message..." />
-    <button onclick="sendMessage()">Send</button>
+    <button id="sendButton" onclick="sendMessage()">Send</button>
+</div>
 
-    <div id="chatbox"></div>
+<script>
+    const chatHistory = [];
 
-    <script>
-        async function sendMessage() {
-            const input = document.getElementById('userInput');
-            const message = input.value;
-            input.value = ""; // clear input field
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        const userMessage = input.value.trim();
+        if (!userMessage) return;
 
-            // Send user message to backend
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_message: message })
-            });
+        chatHistory.push({ role: "user", content: userMessage });
 
-            const data = await response.json();
+        input.value = ""; // Clear input
 
-            // Display in chatbox
-            const chatbox = document.getElementById('chatbox');
-            chatbox.innerHTML += `<p><b>You:</b> ${message}</p>`;
-            chatbox.innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ history: chatHistory })
+        });
+
+        const data = await response.json();
+
+        chatHistory.push({ role: "assistant", content: data.reply });
+
+        renderChat();
+    }
+
+    function renderChat() {
+        const chatbox = document.getElementById('chatbox');
+        chatbox.innerHTML = "";
+
+        chatHistory.forEach(msg => {
+            const div = document.createElement('div');
+            div.className = `message ${msg.role === "user" ? "user" : "bot"}`;
+            div.innerText = msg.content;
+            chatbox.appendChild(div);
+        });
+
+        // Scroll to bottom
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    // Allow pressing "Enter" to send
+    document.getElementById('userInput').addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
         }
-    </script>
+    });
+</script>
+
 </body>
 </html>
