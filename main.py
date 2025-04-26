@@ -38,8 +38,48 @@ functions = [
             },
             "required": ["location"],
         },
+    },
+    {
+        "name": "create_maintenance_request",
+        "description": "Send a maintenance reqeust to property manager. ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "description": {"type": "string", "description": "Description of the maintenance issue."},
+                "required_category_of_maintenance_provider": {
+                    "type":"string",
+                    "enum": ["plumber","electrician","cleaning","handyman"],
+                    "description": "The category of maintenance request to send to the property manager. which will also be used to send to relevant service provider."
+                },
+            },
+            "required": ["description"],
+        },
     }
 ]
+
+def dispatch(function_name, arguments):
+    if function_name == "get_weather":
+        city = arguments.get("location")
+        # Example: Call a real weather API (here faked for demo)
+        print(f"Calling weather API for {city}...")
+
+        # 🔥 Replace this with your real API call
+        weather_result = {
+            "location": city,
+            "temperature_celsius": 22,
+            "condition": "Partly cloudy"
+        }
+        return weather_result
+    elif function_name == "create_maintenance_request":
+        description = arguments.get("description")
+        category = arguments.get("required_category_of_maintenance_provider")
+        print(f"Creating maintenance request for {description}...")
+        print(f"Category: {category}")
+        # Example: Call a real maintenance request API (here faked for demo)    
+        return {"confirmation_number": "XYZ789", "service_provider": category}
+    else:
+        raise Exception("Unknown function")
+
 
 @app.get("/")
 async def get_index():
@@ -58,7 +98,7 @@ async def chat(message: HistoryMessage):
         functions=functions,
         function_call="auto",
         max_tokens=4096,
-        temperature=1.0,
+        temperature=1,
         top_p=1.0,
         model=os.getenv("AZURE_DEPLOYMENT_ID"))
     
@@ -69,35 +109,24 @@ async def chat(message: HistoryMessage):
         arguments = json.loads(first_response.function_call.arguments)
 
         # Step 6. Call your real API based on function name
-        if function_name == "get_weather":
-            city = arguments.get("location")
-            
-            # Example: Call a real weather API (here faked for demo)
-            print(f"Calling weather API for {city}...")
+        function_response = dispatch(function_name, arguments)    
 
-            # 🔥 Replace this with your real API call
-            weather_result = {
-                "location": city,
-                "temperature_celsius": 22,
-                "condition": "Partly cloudy"
-            }
+        function_response_content = json.dumps(function_response)
 
-            function_response_content = json.dumps(weather_result)
-
-            full_conversation.append({"role":first_response.role,"function_call":first_response.function_call})       # the model’s function_call message
+        full_conversation.append({"role":first_response.role,"function_call":first_response.function_call})       # the model’s function_call message
 # append this object to full_conversation
-            full_conversation.append({"role": "function", "name": function_name, "content": function_response_content})  # the function response
+        full_conversation.append({"role": "function", "name": function_name, "content": function_response_content})  # the function response
 
 
-            # Step 7. Send the function response back to the model
-            second_response = client.chat.completions.create(
-                model=os.getenv("AZURE_DEPLOYMENT_ID"),
-                messages=full_conversation,  # original user message
-            )
+        # Step 7. Send the function response back to the model
+        second_response = client.chat.completions.create(
+            model=os.getenv("AZURE_DEPLOYMENT_ID"),
+            messages=full_conversation,  # original user message
+        )
 
-            # Step 8. Print final model response!
-            final_message = second_response.choices[0].message.content
-            print("🤖 AI says:", final_message)
+        # Step 8. Print final model response!
+        final_message = second_response.choices[0].message.content
+        print("🤖 AI says:", final_message)
 
     else:
         # No function call, just reply
