@@ -5,3 +5,4 @@ openai
 python-dotenv
 azure-cosmos
 azure.identity
+gunicorn
