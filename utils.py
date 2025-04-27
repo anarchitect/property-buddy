@@ -30,10 +30,6 @@ def process_function_call(function_name, arguments, file_content=None):
         print(f"Category: {category}")
         fileURL = upload_image(file_content) if file_content else None
         added_request = update_customer(os.environ["PROPERTY_ID"], arguments, fileURL)
-        # service_provider_list = get_service_provider_list(category)
-        
-        # print(f"Service provider list: {service_provider_list}")
-        # return {"confirmation_number": added_request["id"], "category": category, service_provider_list: service_provider_list}
         return {"confirmation_number": added_request["id"], "category": category}
     
     elif function_name == "get_maintenance_request_details":
@@ -73,14 +69,14 @@ def update_customer(customerId: str, request: str, fileURL) -> str:
     db = client.get_database_client("contoso-outdoor")
     container = db.get_container_client("customers")
     response = container.read_item(item=str(customerId), partition_key=str(customerId))
-    request_object= create_request_object(customerId, request["required_category_of_maintenance_provider"], request["description"],fileURL)
+    request_object= create_request_object(customerId, request["required_category_of_maintenance_provider"], request["description"], request["is_description_in_english"], request["translated_english_description"], fileURL)
     # update the customer information with the new maintenance request
-    response["orders"].append(request_object)
+    response["orders"].insert(0, request_object)
     container.upsert_item(response)
     return request_object
 
 
-def create_request_object(customer_id: str, request_type: str, description: str, fileURL: str) -> dict:
+def create_request_object(customer_id: str, request_type: str, description: str, is_english: bool, translated_english_description: str, fileURL: str) -> dict:
    
     if request_type not in ["plumber", "electrician", "cleaning", "handyman"]:
         raise ValueError("Invalid request type. Must be one of: plumber, electrician, cleaning, handyman.")
@@ -89,7 +85,9 @@ def create_request_object(customer_id: str, request_type: str, description: str,
     request_object = {
         "id": unique_id,
         "request_type": request_type,
-        "description": description,
+        "description": description if is_english else translated_english_description,
+        "is_english": is_english,
+        "original_description": description if not is_english else None,
         "status": "pending",
         "date": datetime.utcnow().strftime("%Y-%m-%d"),
         "image_url": fileURL,

@@ -44,7 +44,7 @@ functions = [
     },
     {
         "name": "create_maintenance_request",
-        "description": "Send a maintenance reqeust to property manager",
+        "description": "Send a maintenance reqeust to property manager.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -54,8 +54,16 @@ functions = [
                     "enum": ["plumber","electrician","cleaning","handyman"],
                     "description": "The category of maintenance request to send to the property manager. which will also be used to send to a list of service providers."
                 },
+                "is_description_in_english": {
+                    "type": "boolean",
+                    "description": "Indicates whether the description is in English."
+                },
+                "translated_english_description": {
+                    "type": "string",
+                    "description": "The translated description of the maintenance issue in English, if the original description is not in English."
+                },
             },
-            "required": ["description"],
+            "required": ["description","is_description_in_english","translated_english_description"],
         },
     },
     {
@@ -133,7 +141,8 @@ async def chat_with_upload(
             file_contents = await file.read() if file else None
             function_response = process_function_call(function_name, arguments,file_contents)
             final_message = handle_function_call_response(client, first_response, function_response, full_conversation, function_name)
-            response_data["chat_reply"] = json.dumps(final_message)
+            response_data["chat_reply"] = final_message 
+            # //json.dumps(final_message)
         else:
             response_data["chat_reply"] = first_response.content
 
