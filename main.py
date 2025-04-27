@@ -82,6 +82,21 @@ def handle_function_call_response(client, first_response, function_response, ful
 async def get_index():
     return FileResponse('index.html')
 
+@app.get("/myrequests", response_class=HTMLResponse)
+async def show_profile(request: Request):
+    templates = Jinja2Templates(directory="templates")
+    property_id = os.environ["PROPERTY_ID"]
+    items = get_property(property_id)
+    if not items:
+        return HTMLResponse(content="No resident found.", status_code=404)
+
+    resident = items[0]
+
+    return templates.TemplateResponse(
+        "resident_profile.html",
+        {"request": request, "resident": resident}
+    )
+
 @app.post("/chat")
 async def chat(message: HistoryMessage):
 
@@ -171,19 +186,3 @@ async def chat_with_upload(
     #     }
 
     return response_data
-
-
-# @app.get("/myrequests", response_class=HTMLResponse)
-# async def show_profile(request: Request):
-#     templates = Jinja2Templates(directory="templates")
-#     property_id = os.environ["PROPERTY_ID"]
-#     items = get_property(property_id)
-#     if not items:
-#         return HTMLResponse(content="No resident found.", status_code=404)
-
-#     resident = items[0]
-
-#     return templates.TemplateResponse(
-#         "resident_profile.html",
-#         {"request": request, "resident": resident}
-#     )
