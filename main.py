@@ -55,6 +55,10 @@ functions = [
             },
             "required": ["description"],
         },
+    },
+    {
+        "name": "get_maintenance_request_details",
+        "description": "Get the status, estimated date, quote, and contact of the service provider of a maintenance request.",
     }
 ]
 

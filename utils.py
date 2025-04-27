@@ -1,4 +1,7 @@
 import json
+import os
+from azure.cosmos import CosmosClient
+from azure.identity import DefaultAzureCredential
 
 def process_function_call(function_name, arguments):
     """
@@ -25,19 +28,19 @@ def process_function_call(function_name, arguments):
         # Example: Call a real maintenance request API (here faked for demo)
         return {"confirmation_number": "XYZ789", "service_provider": category}
     
-    # elif function_name == "get_maintenance_request_status":
-    #     request_id = arguments.get("request_id")
-    #     print(f"Checking status for maintenance request {request_id}...")
-    #     # Example: Call a real maintenance request status API (here faked for demo)
-    #     return {"status": "In progress", "estimated_completion": "2023-10-15"}
-
+    elif function_name == "get_maintenance_request_details":
+        # request_id = arguments.get("request_id")
+        # print(f"Checking status for maintenance request {request_id}...")
+        customer_info = get_customer("unit-1")
+        # return {"status": "In progress", "estimated_completion": "2023-10-15"}
+        return {"response":customer_info}
     else:
         raise Exception("Unknown function")
 
-# def get_customer(customerId: str) -> str:
-#     url = os.environ["COSMOS_ENDPOINT"]
-#     client = CosmosClient(url=url, credential=DefaultAzureCredential())
-#     db = client.get_database_client("contoso-outdoor")
-#     container = db.get_container_client("customers")
-#     response = container.read_item(item=str(customerId), partition_key=str(customerId))
-#     return response
+def get_customer(customerId: str) -> str:
+    url = os.environ["COSMOS_ENDPOINT"]
+    client = CosmosClient(url=url, credential=DefaultAzureCredential())
+    db = client.get_database_client("contoso-outdoor")
+    container = db.get_container_client("customers")
+    response = container.read_item(item=str(customerId), partition_key=str(customerId))
+    return response
