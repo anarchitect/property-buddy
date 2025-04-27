@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chatbot with History</title>
+    <title>Chatbot with File Upload</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,17 +39,20 @@
         }
         #inputArea {
             display: flex;
+            flex-direction: column;
             padding: 10px;
             background: white;
             border-top: 1px solid #ccc;
         }
         #userInput {
-            flex-grow: 1;
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        #fileInput {
+            margin-bottom: 10px;
         }
         #sendButton {
             padding: 10px 20px;
@@ -71,6 +74,7 @@
 
 <div id="inputArea">
     <input id="userInput" type="text" placeholder="Type your message..." />
+    <input id="fileInput" type="file" />
     <button id="sendButton" onclick="sendMessage()">Send</button>
 </div>
 
@@ -79,22 +83,29 @@
 
     async function sendMessage() {
         const input = document.getElementById('userInput');
+        const fileInput = document.getElementById('fileInput');
         const userMessage = input.value.trim();
-        if (!userMessage) return;
+        const file = fileInput.files[0];
 
-        chatHistory.push({ role: "user", content: userMessage });
+        if (!userMessage && !file) return;
+        chatHistory.push({ role: "user", content: userMessage || `Uploaded file: ${file.name}` });
+        const formData = new FormData();
+        formData.append("message", JSON.stringify({"history":chatHistory}));
+        if (file) {
+            formData.append("file", file);
+        }
 
         input.value = ""; // Clear input
+        fileInput.value = ""; // Clear file input
 
-        const response = await fetch('/chat', {
+        const response = await fetch('/chat_with_upload/', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ history: chatHistory })
+            body: formData
         });
 
         const data = await response.json();
 
-        chatHistory.push({ role: "assistant", content: data.reply });
+        chatHistory.push({ role: "assistant", content: data.chat_reply });
 
         renderChat();
     }

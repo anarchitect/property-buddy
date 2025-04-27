@@ -20,7 +20,8 @@ def generate_unique_id(source_string):
         Example Output: "3-456" (where "456" is a random number)
     """
     # Extract the part after the hyphen
-    first_part = source_string.split('-')[-1]
+    first_part = source_string 
+    # //.split('-')[-1]
     # Generate the second part randomly
     second_part = f"{random.randint(100, 999)}"
     unique_id = f"{first_part}-{second_part}"

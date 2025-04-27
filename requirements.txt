@@ -6,3 +6,6 @@ python-dotenv
 azure-cosmos
 azure.identity
 gunicorn
+python-multipart
+azure-storage-blob
+jinja2
