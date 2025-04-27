@@ -42,7 +42,7 @@ functions = [
     },
     {
         "name": "create_maintenance_request",
-        "description": "Send a maintenance reqeust to property manager. ",
+        "description": "Send a maintenance reqeust to property manager and a list of service providers.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -50,7 +50,7 @@ functions = [
                 "required_category_of_maintenance_provider": {
                     "type":"string",
                     "enum": ["plumber","electrician","cleaning","handyman"],
-                    "description": "The category of maintenance request to send to the property manager. which will also be used to send to relevant service provider."
+                    "description": "The category of maintenance request to send to the property manager. which will also be used to send to a list of service providers."
                 },
             },
             "required": ["description"],

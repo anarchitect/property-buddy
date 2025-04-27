@@ -1,0 +1,109 @@
+{
+  "id": "maintenance",
+  "categories": [
+    {
+      "category": "plumber",
+      "service_providers": [
+        {
+          "name": "John's Plumbing Services",
+          "abn": "12345678901",
+          "description": "Expert plumbing services for residential and commercial properties.",
+          "email": "contact@johnsplumbing.com",
+          "phone": "+61 400 123 456"
+        },
+        {
+          "name": "AquaFix Plumbing",
+          "abn": "23456789012",
+          "description": "Reliable plumbing solutions for all your needs.",
+          "email": "info@aquafix.com",
+          "phone": "+61 400 234 567"
+        },
+        {
+          "name": "FlowPro Plumbers",
+          "abn": "34567890123",
+          "description": "Professional plumbing services with a focus on quality.",
+          "email": "support@flowpro.com",
+          "phone": "+61 400 345 678"
+        }
+      ]
+    },
+    {
+      "category": "electrician",
+      "service_providers": [
+        {
+          "name": "Bright Sparks Electrical",
+          "abn": "98765432109",
+          "description": "Licensed electricians specializing in wiring, repairs, and installations.",
+          "email": "info@brightsparks.com",
+          "phone": "+61 400 654 321"
+        },
+        {
+          "name": "PowerPro Electricians",
+          "abn": "87654321098",
+          "description": "Expert electrical services for homes and businesses.",
+          "email": "contact@powerpro.com",
+          "phone": "+61 400 765 432"
+        },
+        {
+          "name": "VoltMaster Electrical",
+          "abn": "76543210987",
+          "description": "High-quality electrical solutions for all your needs.",
+          "email": "support@voltmaster.com",
+          "phone": "+61 400 876 543"
+        }
+      ]
+    },
+    {
+      "category": "cleaning",
+      "service_providers": [
+        {
+          "name": "Sparkle Cleaning Co.",
+          "abn": "11223344556",
+          "description": "Professional cleaning services for homes and offices.",
+          "email": "support@sparklecleaning.com",
+          "phone": "+61 400 789 123"
+        },
+        {
+          "name": "FreshStart Cleaners",
+          "abn": "22334455667",
+          "description": "Reliable and affordable cleaning services.",
+          "email": "info@freshstart.com",
+          "phone": "+61 400 890 234"
+        },
+        {
+          "name": "ShinySpaces Cleaning",
+          "abn": "33445566778",
+          "description": "Top-notch cleaning services for sparkling results.",
+          "email": "contact@shinyspaces.com",
+          "phone": "+61 400 901 345"
+        }
+      ]
+    },
+    {
+      "category": "handyman",
+      "service_providers": [
+        {
+          "name": "Handy Helpers",
+          "abn": "66778899001",
+          "description": "General handyman services for repairs and maintenance.",
+          "email": "help@handyhelpers.com",
+          "phone": "+61 400 987 654"
+        },
+        {
+          "name": "FixIt Handyman Services",
+          "abn": "77889900112",
+          "description": "Quick and reliable handyman solutions.",
+          "email": "info@fixit.com",
+          "phone": "+61 400 876 543"
+        },
+        {
+          "name": "ProFix Handyman",
+          "abn": "88990011223",
+          "description": "Experienced handyman services for all types of repairs.",
+          "email": "support@profix.com",
+          "phone": "+61 400 765 432"
+        }
+      ]
+    }
+  ]
+}
