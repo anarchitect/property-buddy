@@ -50,6 +50,9 @@ functions = [
                         "Generated SQL query based on the provided description. "
                         "The SQL is for a payment table with these columns "
                         "(amount, due_date, payee, payment_type, status). "
+                        "the status column can be one of these values (Paid, Overdue, Pending). "
+                        "the table schema is 'CREATE TABLE payment (payment_id INT IDENTITY(1,1) PRIMARY KEY, amount DECIMAL(10, 2) NOT NULL, due_date DATE NOT NULL, payee NVARCHAR(100) NOT NULL, payment_type NVARCHAR(50) NOT NULL, status NVARCHAR(20) NOT NULL), customer_id NVARCHAR(50) NOT NULL;' "
+                        "Only generate SQL query with syntax for Azure SQL Database. "
                         "Only generate SQL queries, do not generate natural language."
                     )
                 }
