@@ -1,3 +1,4 @@
+import json
 import pyodbc
 import os
 
@@ -22,7 +23,10 @@ def query_azure_sql(query):
             with conn.cursor() as cursor:
                 cursor.execute(query)
                 results = cursor.fetchall()
-                return results
+                columns = [column[0] for column in cursor.description]
+                data = [dict(zip(columns, row)) for row in results]
+                json_data = json.dumps(data, default=str)  # Convert to JSON string if needed
+                return json_data
     except Exception as e:
         print(f"An error occurred: {e}")
         return None

@@ -5,6 +5,7 @@ from azure.identity import DefaultAzureCredential
 from datetime import datetime
 from orderid import generate_unique_id
 from fileutils import upload_image
+from payment_data_service import query_azure_sql;
 
 def process_function_call(function_name, arguments, file_content=None):
     """
@@ -35,15 +36,18 @@ def process_function_call(function_name, arguments, file_content=None):
     elif function_name == "get_maintenance_request_details":
         # request_id = arguments.get("request_id")
         # print(f"Checking status for maintenance request {request_id}...")
-        customer_info = get_customer("unit-1")
+        customer_info = get_customer(os.environ["PROPERTY_ID"])
         # return {"status": "In progress", "estimated_completion": "2023-10-15"}
         return {"response":customer_info}
     
     elif function_name == "get_payments":
-        customer_info = get_customer("unit-1")
         sql = arguments.get("sql_query")
         print(f"Getting payment information for {sql}...")
-        return {"response":customer_info}
+        customer_id = os.environ["PROPERTY_ID"]
+        sql_with_customer_id = sql.format(customer_id=f"'{customer_id}'")
+        print(f"Getting payment information for {sql_with_customer_id}...")
+        results = query_azure_sql(sql_with_customer_id)
+        return {"response":results}
     else:
         raise Exception("Unknown function")
 
