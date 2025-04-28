@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import os
 from typing import List, Optional
@@ -136,13 +137,19 @@ async def chat_with_upload(
     return response_data
 
 @app.post("/feedback")
-async def feedback(response_text: str = Form(...), feedback: str = Form(...)):
-    
+async def feedback(user_message: str = Form(...), response_text: str = Form(...), feedback: str = Form(...)):
     os.makedirs('user_feedback', exist_ok=True)
 
-    # Decide file path based on feedback
     filename = "positive_results.txt" if feedback == "positive" else "negative_results.txt"
     filepath = os.path.join("user_feedback", filename)
+
+    # Get current timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     with open(filepath, "a", encoding="utf-8") as f:
-        f.write(response_text + "\n" + "-"*50 + "\n")
-    return {"status": "ok"} 
+        f.write(f"Feedback received at: {timestamp}\n")
+        f.write(f"User: {user_message}\n")
+        f.write(f"Assistant: {response_text}\n")
+        f.write("-" * 50 + "\n")
+
+    return {"status": "ok"}

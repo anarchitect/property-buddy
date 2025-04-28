@@ -181,24 +181,34 @@
     }
 
     async function sendFeedback(responseText, feedback) {
-        const formData = new FormData();
-        formData.append("response_text", responseText);
-        formData.append("feedback", feedback);
-
-        await fetch('/feedback', {
-            method: 'POST',
-            body: formData
-        });
-
-        // Show alert based on feedback
-        if (feedback === 'positive') {
-            alert("✅ Thank you for your positive feedback!");
-        } else if (feedback === 'negative') {
-            alert("⚠️ Thanks, we'll use your feedback to improve.");
+    // Find the immediate user message before this assistant response
+    let lastUserMessage = "";
+    for (let i = chatHistory.length - 1; i >= 0; i--) {
+        if (chatHistory[i].role === "assistant" && chatHistory[i].content === responseText) {
+            // Found the assistant message
+            if (i > 0 && chatHistory[i-1].role === "user") {
+                lastUserMessage = chatHistory[i-1].content;
+            }
+            break;
         }
-
-        //showPopup(); // Show feedback popup
     }
+
+    const formData = new FormData();
+    formData.append("user_message", lastUserMessage);
+    formData.append("response_text", responseText);
+    formData.append("feedback", feedback);
+
+    await fetch('/feedback', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (feedback === 'positive') {
+        alert("✅ Thank you for your positive feedback!");
+    } else {
+        alert("⚠️ Thanks, we'll use your feedback to improve.");
+    }
+}
 
     function showPopup() {
     const popup = document.getElementById('feedbackPopup');
