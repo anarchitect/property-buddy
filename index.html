@@ -10,9 +10,29 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+            position: relative; /* Important fix */
             height: 100vh;
             background: #f0f2f5;
         }
+    /* Popup styles */
+    #feedbackPopup {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        z-index: 9999;
+        opacity: 0; /* 👈 Start hidden */
+        transition: opacity 0.5s ease; /* 👈 Smooth transition */
+        pointer-events: none; /* Prevent clicking while invisible */
+    }
+    #feedbackPopup.show {
+        opacity: 1; /* 👈 When shown */
+        pointer-events: auto; /* Enable clicking while visible (optional) */
+    }
         #chatbox {
             flex-grow: 1;
             overflow-y: auto;
@@ -70,6 +90,22 @@
 </head>
 <body>
 
+<!-- Feedback popup message -->
+<div id="feedbackPopup" style="
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+">
+    Thanks for your feedback!
+</div>
+
 <div id="chatbox"></div>
 
 <div id="inputArea">
@@ -119,11 +155,58 @@
             div.className = `message ${msg.role === "user" ? "user" : "bot"}`;
             div.innerText = msg.content;
             chatbox.appendChild(div);
+
+            // Add thumbs up/down only for assistant responses
+            if (msg.role === "assistant") {
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.style.marginBottom = '20px';
+
+                const thumbsUp = document.createElement('button');
+                thumbsUp.innerText = "👍";
+                thumbsUp.onclick = () => sendFeedback(msg.content, 'positive');
+
+                const thumbsDown = document.createElement('button');
+                thumbsDown.innerText = "👎";
+                thumbsDown.onclick = () => sendFeedback(msg.content, 'negative');
+
+                feedbackDiv.appendChild(thumbsUp);
+                feedbackDiv.appendChild(thumbsDown);
+                chatbox.appendChild(feedbackDiv);
+            }
+
         });
 
         // Scroll to bottom
         chatbox.scrollTop = chatbox.scrollHeight;
     }
+
+    async function sendFeedback(responseText, feedback) {
+        const formData = new FormData();
+        formData.append("response_text", responseText);
+        formData.append("feedback", feedback);
+
+        await fetch('/feedback', {
+            method: 'POST',
+            body: formData
+        });
+
+        // Show alert based on feedback
+        if (feedback === 'positive') {
+            alert("✅ Thank you for your positive feedback!");
+        } else if (feedback === 'negative') {
+            alert("⚠️ Thanks, we'll use your feedback to improve.");
+        }
+
+        //showPopup(); // Show feedback popup
+    }
+
+    function showPopup() {
+    const popup = document.getElementById('feedbackPopup');
+    popup.classList.add('show');    // Fade in
+    setTimeout(() => {
+        popup.classList.remove('show'); // Fade out after 3 seconds
+    }, 3000);
+}
 
     // Allow pressing "Enter" to send
     document.getElementById('userInput').addEventListener("keypress", function(e) {

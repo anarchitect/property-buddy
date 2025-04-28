@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from payment_data_service import query_azure_sql
 from utils import get_property, process_function_call  # Import the function
 from fileutils import upload_image  # Import the function
@@ -134,3 +134,15 @@ async def chat_with_upload(
     #     }
 
     return response_data
+
+@app.post("/feedback")
+async def feedback(response_text: str = Form(...), feedback: str = Form(...)):
+    
+    os.makedirs('user_feedback', exist_ok=True)
+
+    # Decide file path based on feedback
+    filename = "positive_results.txt" if feedback == "positive" else "negative_results.txt"
+    filepath = os.path.join("user_feedback", filename)
+    with open(filepath, "a", encoding="utf-8") as f:
+        f.write(response_text + "\n" + "-"*50 + "\n")
+    return {"status": "ok"} 
