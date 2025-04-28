@@ -46,7 +46,12 @@ functions = [
             "properties": {
                 "sql_query": {
                     "type": "string",
-                    "description": "Generated SQL query based on the provided description. The SQL is for a payment table with these columns (amount, due_date, payee, payment_type, status). Only generate SQL queries, do not generate natural language."
+                    "description": (
+                        "Generated SQL query based on the provided description. "
+                        "The SQL is for a payment table with these columns "
+                        "(amount, due_date, payee, payment_type, status). "
+                        "Only generate SQL queries, do not generate natural language."
+                    )
                 }
             }
         }
