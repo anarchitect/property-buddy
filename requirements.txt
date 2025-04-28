@@ -9,3 +9,4 @@ gunicorn
 python-multipart
 azure-storage-blob
 jinja2
+pyodbc
