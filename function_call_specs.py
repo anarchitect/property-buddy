@@ -54,6 +54,7 @@ functions = [
                         "the table schema is 'CREATE TABLE payment (payment_id INT IDENTITY(1,1) PRIMARY KEY, amount DECIMAL(10, 2) NOT NULL, due_date DATE NOT NULL, payee NVARCHAR(100) NOT NULL, payment_type NVARCHAR(50) NOT NULL, status NVARCHAR(20) NOT NULL), customer_id NVARCHAR(50) NOT NULL;' "
                         "Only generate SQL query with syntax for Azure SQL Database. "
                         "Only generate select SQL query and ensure no SQL vulnerability."
+                        "In the columns to be selected in the generated query, if possible, please include as many columns as possible. "
                         "In the generated query, also add a WHERE clause to filter the results based on the customer_id column. and value in the customer_id filter is a placeholder called {customer_id}."
                         "Only generate SQL queries, do not generate natural language."
                     )
