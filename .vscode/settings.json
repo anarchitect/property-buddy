@@ -3,5 +3,7 @@
         "tests"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "appService.defaultWebAppToDeploy": "/subscriptions/934a26c5-6062-491b-9eeb-b5d20e54225a/resourceGroups/rg-chat-app/providers/Microsoft.Web/sites/proertyhelper",
+    "appService.deploySubpath": "."
 }

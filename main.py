@@ -9,6 +9,7 @@ from openai import AzureOpenAI
 from fastapi.responses import FileResponse, HTMLResponse
 from utils import get_property, process_function_call  # Import the function
 from fileutils import upload_image  # Import the function
+from function_call_specs import functions  # Import the functions list
 
 # Load .env file
 load_dotenv()
@@ -30,51 +31,10 @@ class HistoryMessage(BaseModel):
     history: List[MessageEntry]
 
 # Step 2. Define available functions
-functions = [
-    {
-        "name": "get_weather",
-        "description": "Get the current weather in a city",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "location": {"type": "string", "description": "City name"},
-            },
-            "required": ["location"],
-        },
-    },
-    {
-        "name": "create_maintenance_request",
-        "description": "Send a maintenance reqeust to property manager.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "description": {"type": "string", "description": "Description of the maintenance issue."},
-                "required_category_of_maintenance_provider": {
-                    "type":"string",
-                    "enum": ["plumber","electrician","cleaning","handyman"],
-                    "description": "The category of maintenance request to send to the property manager. which will also be used to send to a list of service providers."
-                },
-                "is_description_in_english": {
-                    "type": "boolean",
-                    "description": "Indicates whether the description is in English."
-                },
-                "translated_english_description": {
-                    "type": "string",
-                    "description": "The translated description of the maintenance issue in English, if the original description is not in English."
-                },
-            },
-            "required": ["description","is_description_in_english","translated_english_description"],
-        },
-    },
-    {
-        "name": "get_maintenance_request_details",
-        "description": "Get the status, estimated date, quote, and contact of the service provider of a maintenance request.",
-    }
-]
 
 def handle_function_call_response(client, first_response, function_response, full_conversation, function_name):
     function_response_content = json.dumps(function_response)
-
+    print (f"Function response content: {function_response_content}")
     full_conversation.append({"role": first_response.role, "function_call": first_response.function_call})
     full_conversation.append({"role": "function", "name": function_name, "content": function_response_content})
 

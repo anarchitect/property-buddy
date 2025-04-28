@@ -38,6 +38,12 @@ def process_function_call(function_name, arguments, file_content=None):
         customer_info = get_customer("unit-1")
         # return {"status": "In progress", "estimated_completion": "2023-10-15"}
         return {"response":customer_info}
+    
+    elif function_name == "get_payments":
+        customer_info = get_customer("unit-1")
+        sql = arguments.get("sql_query")
+        print(f"Getting payment information for {sql}...")
+        return {"response":customer_info}
     else:
         raise Exception("Unknown function")
 
