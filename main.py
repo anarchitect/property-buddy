@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 from fastapi.responses import FileResponse, HTMLResponse
+from payment_data_service import query_azure_sql
 from utils import get_property, process_function_call  # Import the function
 from fileutils import upload_image  # Import the function
 from function_call_specs import functions  # Import the functions list
@@ -64,6 +65,23 @@ async def show_profile(request: Request):
         "resident_profile.html",
         {"request": request, "resident": resident}
     )
+
+@app.get("/mypayments", response_class=HTMLResponse)
+async def get_payments(request: Request):
+    customer_id = os.environ["PROPERTY_ID"]
+    templates = Jinja2Templates(directory="templates")
+    sql = "SELECT amount, due_date, payee, payment_type, status FROM payment WHERE customer_id = {customer_id} ORDER BY due_date ASC;"
+    sql_with_customer_id = sql.format(customer_id=f"'{customer_id}'")
+    print(f"Getting payment information for {sql_with_customer_id}...")
+    payments = query_azure_sql(sql_with_customer_id)
+    payments_json = json.loads(payments)
+    for payment in payments_json:
+        payment['amount'] = float(payment['amount'])
+    return templates.TemplateResponse(
+        "payment_list.html",
+        {"request": request, "customer_id": customer_id, "payments": payments_json}
+    )
+
 
 @app.post("/chat_with_upload/")
 async def chat_with_upload(
