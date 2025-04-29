@@ -53,7 +53,13 @@ def get_all_blobs(container_name):
             feedbacks = []
             for blob in blob_list:
                 blob_data = container_client.download_blob(blob.name).readall().decode("utf-8")
-                feedbacks.append({"name": blob.name, "content": blob_data})
+                feedbacks.append({
+                    "name": blob.name,
+                    "content": blob_data,
+                    "created_on": blob.creation_time  # capture creation time
+                })
+            # Sort by creation_time descending (newest first)
+            feedbacks.sort(key=lambda x: x["created_on"], reverse=True)
             return feedbacks
         except Exception:
             return []
