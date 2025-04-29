@@ -1,36 +1,34 @@
-# FastAPI Template
+# Property Buddy
 
-This sample repo contains the recommended structure for a Python FastAPI project. In this sample, we use `fastapi` to build a web application and the `pytest` to run tests.
+## Introduction
+This project contains an AI Assistant who can seemlessly manage property matters for both apartment/units/townhouse tenants and property managers. It can answer you: 
+- Payment inquiries. example: "When is my next payment due"
+- Request maintenance about property from preferred list of service providers, without waiting for property manager. Of course, you can query its status too.
+- Tenants can chat with property buddy with language other than English. And your maintenance request will be created in English, so service providers can understand it.
 
-For a more in-depth tutorial, see our [Fast API tutorial](https://code.visualstudio.com/docs/python/tutorial-fastapi).
+Additionally:
+- You can provide feedback to the chat experience with property buddy.
+- All your chats are not going to be used by others because we are using safe AI Models on Microsoft Cloud.  
 
-The code in this repo aims to follow Python style guidelines as outlined in [PEP 8](https://peps.python.org/pep-0008/).
+### Example conversations (screenshots):
+- When is my next payment due
+- My shower is leaking
+- When is my shower leakage is going to be fixed?
+- Mon mur a un trou. ("My wall has got a hole in it" in French)
 
-## Set up instructions
+## Technical Architecture
+It is a Python app applicaiton, can be deployed to Azure App Service with one right click from VS Code. It deployed ChatGPT model on Azure OpenAI, with OpenAI API SDK. 
+It achieves RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively.
+The chat solution is intelligent and adaptable. Because there is no hardcoded SQL Queries, rules of Categorisation and Translation of Maintenance Request. These are all supplied by LLM during the chat, which results into much less software maintenance, more responsive, much faster to market, than tranditional application.  
 
-This sample makes use of Dev Containers, in order to leverage this setup, make sure you have [Docker installed](https://www.docker.com/products/docker-desktop).
+### Resources and setup needed 
+List of environment names 
 
-To successfully run this example, we recommend the following VS Code extensions:
+### Programming stack
+##Language: 
+Python, Azure OpenAI, OpenAI API SDK
 
-- [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-- [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-- [Python Debugger](https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy)
-- [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance) 
-
-In addition to these extension there a few settings that are also useful to enable. You can enable to following settings by opening the Settings editor (`Ctrl+,`) and searching for the following settings:
-
-- Python > Analysis > **Type Checking Mode** : `basic`
-- Python > Analysis > Inlay Hints: **Function Return Types** : `enable`
-- Python > Analysis > Inlay Hints: **Variable Types** : `enable`
-
-## Running the sample
-- Open the template folder in VS Code (**File** > **Open Folder...**)
-- Open the Command Palette in VS Code (**View > Command Palette...**) and run the **Dev Container: Reopen in Container** command.
-- Run the app using the Run and Debug view or by pressing `F5`
-- `Ctrl + click` on the URL that shows up on the terminal to open the running application 
-- Test the API functionality by navigating to `/docs` URL to view the Swagger UI
-- Configure your Python test in the Test Panel or by triggering the **Python: Configure Tests** command from the Command Palette
-- Run tests in the Test Panel or by clicking the Play Button next to the individual tests in the `test_main.py` file
-
-
-To run this app locally: python -m uvicorn main:app 
+### Use of this application 
+- / this is the chat interface
+- /myrequests Show all maintenance requests in COSMOS for specific customer
+- /mypayments Show all payments details in Azure SQL for specific customer
