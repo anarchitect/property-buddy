@@ -28,7 +28,7 @@ List of environment names
 ##Language: 
 Python, Azure OpenAI, OpenAI API SDK
 
-### Use of this application 
+### Navigate this application 
 - / this is the chat interface
 - /myrequests Show all maintenance requests in COSMOS for specific customer
 - /mypayments Show all payments details in Azure SQL for specific customer
