@@ -17,6 +17,9 @@ Additionally:
 - Mon mur a un trou. ("My wall has got a hole in it" in French)
 
 ## Technical Architecture
+
+![Property Buddy](assets/PropertyBuddy.png)
+
 - This is a Python app application, can be deployed to Azure App Service with one right click from VS Code. It deployed ChatGPT model on Azure OpenAI, with OpenAI API SDK. 
 - This achieves RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively.
 - The chat solution is intelligent and adaptable. It requires much less software maintenance, more responsive, much faster to market, than traditional application. Because there is no hardcoded SQL Queries, rules of Categorization and Translation of Maintenance Request. These are all supplied by LLM during the chat 
