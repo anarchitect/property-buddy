@@ -2,9 +2,9 @@
 
 ## Introduction
 This project contains an AI Assistant who can seemlessly manage property matters for both apartment/units/townhouse tenants and property managers. It can answer you: 
-- Payment inquiries. example: "When is my next payment due"
-- Request maintenance about property from preferred list of service providers, without waiting for property manager. Of course, you can query its status too.
-- Tenants can chat with property buddy with language other than English. And your maintenance request will be created in English, so service providers can understand it.
+- Payment inquiries.
+- Request maintenance about property from preferred list of service providers, and ask its status, all without waiting for property manager. Super efficient!
+- Tenants can chat with property buddy with language other than English. And your maintenance request will be created in English, so that service providers can understand it.
 
 Additionally:
 - You can provide feedback to the chat experience with property buddy.
@@ -17,9 +17,9 @@ Additionally:
 - Mon mur a un trou. ("My wall has got a hole in it" in French)
 
 ## Technical Architecture
-It is a Python app applicaiton, can be deployed to Azure App Service with one right click from VS Code. It deployed ChatGPT model on Azure OpenAI, with OpenAI API SDK. 
-It achieves RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively.
-The chat solution is intelligent and adaptable. Because there is no hardcoded SQL Queries, rules of Categorisation and Translation of Maintenance Request. These are all supplied by LLM during the chat, which results into much less software maintenance, more responsive, much faster to market, than tranditional application.  
+- This is a Python app applicaiton, can be deployed to Azure App Service with one right click from VS Code. It deployed ChatGPT model on Azure OpenAI, with OpenAI API SDK. 
+- This achieves RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively.
+- The chat solution is intelligent and adaptable. It requires much less software maintenance, more responsive, much faster to market, than tranditional application. Because there is no hardcoded SQL Queries, rules of Categorisation and Translation of Maintenance Request. These are all supplied by LLM during the chat 
 
 ### Resources and setup needed 
 List of environment names 
