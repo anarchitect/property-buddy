@@ -10,7 +10,7 @@ from openai import AzureOpenAI
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from payment_data_service import query_azure_sql
 from utils import get_property, process_function_call  # Import the function
-from fileutils import upload_image  # Import the function
+from fileutils import get_all_blobs, upload_feedback  # Import the function
 from function_call_specs import functions  # Import the functions list
 
 # Load .env file
@@ -138,18 +138,40 @@ async def chat_with_upload(
 
 @app.post("/feedback")
 async def feedback(user_message: str = Form(...), response_text: str = Form(...), feedback: str = Form(...)):
-    os.makedirs('user_feedback', exist_ok=True)
+    # os.makedirs('user_feedback', exist_ok=True)
 
-    filename = "positive_results.txt" if feedback == "positive" else "negative_results.txt"
-    filepath = os.path.join("user_feedback", filename)
+    # filename = "positive_results.txt" if feedback == "positive" else "negative_results.txt"
+    # filepath = os.path.join("user_feedback", filename)
 
     # Get current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # with open(filepath, "a", encoding="utf-8") as f:
+    #     f.write(f"Feedback received at: {timestamp}\n")
+    #     f.write(f"User: {user_message}\n")
+    #     f.write(f"Assistant: {response_text}\n")
+    #     f.write("-" * 50 + "\n")
 
-    with open(filepath, "a", encoding="utf-8") as f:
-        f.write(f"Feedback received at: {timestamp}\n")
-        f.write(f"User: {user_message}\n")
-        f.write(f"Assistant: {response_text}\n")
-        f.write("-" * 50 + "\n")
+    content = (
+        f"Received At: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"User: {user_message}\n"
+        f"Assistant: {response_text}\n"
+    )
+    upload_feedback(feedback,content.encode('utf-8'))
+
+    
 
     return {"status": "ok"}
+
+
+@app.get("/feedback")
+async def view_feedback(request: Request):
+
+    positive_feedbacks = get_all_blobs("positivefeedback")
+    negative_feedbacks = get_all_blobs("negativefeedback")
+
+    templates = Jinja2Templates(directory="templates")
+    return templates.TemplateResponse("feedback_list.html", {
+        "request": request,
+        "positive_feedbacks": positive_feedbacks,
+        "negative_feedbacks": negative_feedbacks
+    })
