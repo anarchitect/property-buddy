@@ -79,7 +79,8 @@ def update_customer(customerId: str, request: str, fileURL) -> str:
     db = client.get_database_client("contoso-outdoor")
     container = db.get_container_client("customers")
     response = container.read_item(item=str(customerId), partition_key=str(customerId))
-    request_object= create_request_object(customerId, request["required_category_of_maintenance_provider"], request["description"], request["is_description_in_english"], request["translated_english_description"], fileURL)
+    translated_english_description = "" if request["is_description_in_english"] == True else request["translated_english_description"]
+    request_object= create_request_object(customerId, request["required_category_of_maintenance_provider"], request["description"], request["is_description_in_english"], translated_english_description, fileURL)
     # update the customer information with the new maintenance request
     response["orders"].insert(0, request_object)
     container.upsert_item(response)
