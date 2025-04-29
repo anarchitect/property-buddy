@@ -163,7 +163,7 @@ async def feedback(user_message: str = Form(...), response_text: str = Form(...)
     return {"status": "ok"}
 
 
-@app.get("/feedback")
+@app.get("/admin/feedback")
 async def view_feedback(request: Request):
 
     positive_feedbacks = get_all_blobs("positivefeedback")

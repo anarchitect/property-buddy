@@ -32,6 +32,7 @@ List of environment names
 Python, Azure OpenAI, OpenAI API SDK
 
 ### Navigate this application 
-- / this is the chat interface
-- /myrequests Show all maintenance requests in COSMOS for specific customer
-- /mypayments Show all payments details in Azure SQL for specific customer
+- / :this is the chat interface
+- /myrequests :Show all maintenance requests in COSMOS for specific customer
+- /mypayments "Show all payments details in Azure SQL for specific customer
+- /admin/feedback "Show all user feedback. Two tabs for list of positive and negative feedback respectively. (Please note no AuthN/AuthZ yet to be implemented in this solution)"
