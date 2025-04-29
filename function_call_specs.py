@@ -56,6 +56,7 @@ functions = [
                         "Only generate select SQL query and ensure no SQL vulnerability."
                         "In the columns to be selected in the generated query, if possible, please include as many columns as possible. "
                         "In the generated query, also add a WHERE clause to filter the results based on the customer_id column. and value in the customer_id filter is a placeholder called {customer_id}."
+                        "Please do not ask for customer id for this {customer_id} placeholder. because the customer is known, and will be provided in the code. "
                         "Only generate SQL queries, do not generate natural language."
                     )
                 }
