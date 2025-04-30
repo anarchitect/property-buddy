@@ -42,6 +42,8 @@ AZURE_SQL_USERNAME="sample-sql-username"
 AZURE_SQL_PASSWORD="sample-sql-password"
 ```
 
+To grant management identity of Azure App Service access as Cosmos Data Contributor, please refer to [this guide](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/how-to-grant-data-plane-access). 
+
 ### Programming stack
 Python, FastAPI, Azure OpenAI, OpenAI SDK
 
