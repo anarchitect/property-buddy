@@ -1,5 +1,7 @@
 # Property Buddy
 
+![Property Buddy](assets/Property-buddy-banner.png)
+
 ## Introduction
 Say hello to this AI Assistant, who can seamlessly manage property matters for both apartment/units/townhouse tenants, landlords, and property managers. It can assist you to: 
 - 💵 Ask for your payments details with natural chat.
