@@ -14,6 +14,7 @@ Say hello to this AI Assistant, who can seamlessly manage property matters for b
 
 ![Property Buddy](assets/PropertyBuddy.png)
 
+### Highlights
 💡 Using Python to ensure to adopt cutting edge Gen AI features, due to its first-class support from the industry. OpenAI SDK is in use, and can be easily switched to other LLMs, most of which offer OpenAI SDK compatible. 
   - FastAPI app can be easily deployed to Azure App Service. 
   - It use deployed ChatGPT model on Azure OpenAI, 
