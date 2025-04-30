@@ -12,6 +12,7 @@ from payment_data_service import query_azure_sql
 from utils import get_property, process_function_call  # Import the function
 from fileutils import get_all_blobs, upload_feedback  # Import the function
 from function_call_specs import functions  # Import the functions list
+from system_prompt_spec import system_prompt  # Import the system prompt
 
 # Load .env file
 load_dotenv()
@@ -99,7 +100,7 @@ async def chat_with_upload(
 
     # Handle chat message
     if chat_history:
-        system_message = {"role": "system", "content": "You are a helpful, concise, and professional chatbot assisting users."}
+        system_message = {"role": "system", "content": system_prompt}
         chat_messages = [{"role": m.role, "content": m.content} for m in chat_history.history]
         full_conversation = [system_message] + chat_messages
 
@@ -125,40 +126,17 @@ async def chat_with_upload(
         else:
             response_data["chat_reply"] = first_response.content
 
-    # # Handle file upload
-    # if file:
-    #     contents = await file.read()
-    #     response_data["file_upload"] = {
-    #         "filename": file.filename,
-    #         "content_type": file.content_type,
-    #         "size": len(contents)
-    #     }
-
     return response_data
 
 @app.post("/feedback")
 async def feedback(user_message: str = Form(...), response_text: str = Form(...), feedback: str = Form(...)):
-    # os.makedirs('user_feedback', exist_ok=True)
-
-    # filename = "positive_results.txt" if feedback == "positive" else "negative_results.txt"
-    # filepath = os.path.join("user_feedback", filename)
-
-    # Get current timestamp
-    # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    # with open(filepath, "a", encoding="utf-8") as f:
-    #     f.write(f"Feedback received at: {timestamp}\n")
-    #     f.write(f"User: {user_message}\n")
-    #     f.write(f"Assistant: {response_text}\n")
-    #     f.write("-" * 50 + "\n")
-
+    
     content = (
         f"Received At: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
         f"User: {user_message}\n"
         f"Assistant: {response_text}\n"
     )
     upload_feedback(feedback,content.encode('utf-8'))
-
-    
 
     return {"status": "ok"}
 
