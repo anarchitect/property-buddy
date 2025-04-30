@@ -68,7 +68,7 @@ Python, FastAPI, Azure OpenAI, OpenAI SDK
 
 ![non_english](assets/Non_english_requests.png)
 
-## non_english order sent to service provider with English
+## Non-english order sent to service provider with English
 
 ![non_english order sent to service provider with English](assets/non-english-service-request-translated-into-english-for-service-providers.png)
 
