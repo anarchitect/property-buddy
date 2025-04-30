@@ -1,24 +1,26 @@
 # Property Buddy
 
 ## Introduction
-This project contains an AI Assistant who can seamlessly manage property matters for both apartment/units/townhouse tenants and property managers. It can answer you: 
-- Payment inquiries.
-- Request maintenance about property from preferred list of service providers, and ask its status, all without waiting for property manager. Super efficient!
-- Tenants can chat with property buddy with language other than English. And your maintenance request will be created in English, so that service providers can understand it.
+Say hello to this AI Assistant, who can seamlessly manage property matters for both apartment/units/townhouse tenants, landlords, and property managers. It can assist you to: 
+- 💵 Ask for your payments details with natural chat.
+- 🛠️ Request maintenance for your property from our preferred service providers, without waiting for property manager at all⏳! Such a seamless service chain! You can also check progress of your asks afterward!
+- 🌐 Tenants can chat with property buddy with language other than English. And your maintenance request will be created in English, so that service providers can understand it.
+- 📷 Of course you can upload picture when ask for property maintenance! 
 
-Additionally:
-- You can provide feedback to the chat experience with property buddy.
-- All your chats are not going to be used by others because we are using safe AI Models on Microsoft Cloud.  
+- 👍 Additionally: Give us feedback about the chat experience with for our continious improvements.  
+- 🔒 Your chat data is securely handled and remains private, adhering to Microsoft Cloud compliance standards.
 
 ## Technical Architecture
 
 ![Property Buddy](assets/PropertyBuddy.png)
 
-- This is a Python app application, can be deployed to Azure App Service with one right click from VS Code. It deployed ChatGPT model on Azure OpenAI, with OpenAI SDK. 
-- This achieves RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively. 
-- Attached picture will be uploaded into Azure Blob Storage together with the maintenance request.
-- The chat solution is intelligent and adaptable. It requires much less software maintenance, more responsive, much faster to market, than traditional application. Because there is no hardcoded SQL Queries, rules of Categorization and Translation of Maintenance Request. These are all supplied by LLM during the chat 
-- User feedback is collected into Blob Storage, will be utilised for continious Evaluation of agent in future.
+- This Python FastAPI app application can be easily deployed to Azure App Service. It deployed ChatGPT model on Azure OpenAI, with OpenAI SDK. 
+- RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively. 
+- Neither SQL Queries coded in the chat solution, nor coded rules of maintenance classification or translation. These are all supplied by LLM during the chat. Hence, request can be sent to service provider directly after classified by LLM, without intervention from property managers. 
+- Picture are uploaded into Azure Blob Storage, together with the maintenance request.
+- User feedback is collected into Blob Storage, will be utilized for continuous Evaluation of agent in future.
+
+🚀 Comparing with traditional applications, it requires much less software maintenance, is more adaptable and flexible, and much faster to market. This means lower license costs for property managers, resulting in reduced fees for tenants and landlords. 
 
 ### Resources and setup needed 
 List of environment variables
@@ -44,9 +46,6 @@ AZURE_SQL_PASSWORD="sample-sql-password"
 
 To grant management identity of Azure App Service access as Cosmos Data Contributor, please refer to [this guide](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/how-to-grant-data-plane-access). 
 
-### Programming stack
-Python, FastAPI, Azure OpenAI, OpenAI SDK
-
 ## User Experiences
 
 ### Navigating the application
@@ -58,9 +57,11 @@ Python, FastAPI, Azure OpenAI, OpenAI SDK
 | /mypayments     | Show all payments details in Azure SQL for specific customer   |
 | /admin/feedback     | Show all user feedback. Two tabs for list of positive and negative feedback respectively. (Please note no AuthN/AuthZ yet to be implemented in this solution) | 
 
+Note. The specific customer id is set in environment variables (PROPERTY ID) for this proof of concept. Only data for specified customer are used during the chat.
+
 ## Example conversations
-- When is my next payment due
-- My shower is leaking
+- When is my next payment due?
+- My shower is leaking.
 - When is my shower leakage is going to be fixed?
 - Mon mur a un trou. ("My wall has got a hole in it" in French)
 
