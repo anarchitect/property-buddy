@@ -47,5 +47,7 @@ Python, Azure OpenAI, OpenAI API SDK
 
 ![non_english order sent to service provider with English](assets/non-english-service-request-translated-into-english-for-service-providers.png)
 
+### Collected feedback
 
+![collected-feedback](assets/collected-feedback.png)
 
