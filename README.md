@@ -12,15 +12,17 @@ Say hello to this AI Assistant, who can seamlessly manage property matters for b
 
 ## Technical Architecture
 
-- This Python FastAPI app application can be easily deployed to Azure App Service. It deployed ChatGPT model on Azure OpenAI, with OpenAI SDK. 
-- RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively. 
-- Neither SQL Queries coded in the chat solution, nor coded rules of maintenance classification or translation. These are all supplied by LLM during the chat. Hence, request can be sent to service provider directly after classified by LLM, without intervention from property managers. 
-- Picture are uploaded into Azure Blob Storage, together with the maintenance request.
-- User feedback is collected into Blob Storage, will be utilized for continuous Evaluation of agent in future.
-
-🚀 Comparing with traditional applications, it requires much less software maintenance, is more adaptable and flexible, and much faster to market. This means lower license costs for property managers, resulting in reduced fees for tenants and landlords. 
-
 ![Property Buddy](assets/PropertyBuddy.png)
+
+💡 Using Python to ensure to adopt cutting edge Gen AI features, due to its first-class support from the industry. OpenAI SDK is in use, and can be easily switched to other LLMs, most of which offer OpenAI SDK compatible. 
+  - FastAPI app can be easily deployed to Azure App Service. 
+  - It use deployed ChatGPT model on Azure OpenAI, 
+  - RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively. 
+  - Picture are uploaded into Azure Blob Storage, together with the maintenance request.
+
+🚀 Comparing with traditional applications, it requires much less software maintenance, is more flexible, and much faster to market. This means lower license costs for property managers, resulting in reduced fees for tenants and landlords. 
+  - Neither SQL Queries coded in the chat solution, nor coded rules of maintenance classification or translation. These are all supplied by LLM during the chat. Hence, request can be sent to service provider directly after classified by LLM, without intervention from property managers. 
+  - User feedback is collected into Blob Storage, will be utilized for continuous Evaluation of agent in future.
 
 ### Resources and setup needed 
 List of environment variables

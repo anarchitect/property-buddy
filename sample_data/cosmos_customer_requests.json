@@ -1,0 +1,107 @@
+{
+    "id": "apartment-906",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "age": 38,
+    "email": "sarahlee@example.com",
+    "phone": "555-867-5309",
+    "address": "321 Maple St, Bigtown USA, 90123",
+    "membership": "Platinum",
+    "orders": [
+        {
+            "id": "apartment-906-392",
+            "request_type": "plumber",
+            "description": "my water tap is leaking",
+            "is_english": true,
+            "original_description": null,
+            "status": "pending",
+            "date": "2025-04-30",
+            "image_url": "https://str6mwhrbz6t7ge.blob.core.windows.net/images/9f4c289a-7494-47dc-a290-584a1852e4a5.jpg"
+        },
+        {
+            "id": "apartment-906-747",
+            "request_type": "plumber",
+            "description": "My shower is leaking.",
+            "is_english": true,
+            "original_description": null,
+            "status": "pending",
+            "date": "2025-04-30",
+            "image_url": null
+        },
+        {
+            "id": "apartment-906-445",
+            "request_type": "plumber",
+            "description": "The faucet in my house is broken.",
+            "is_english": false,
+            "original_description": "我家的水龙头坏了。",
+            "status": "pending",
+            "date": "2025-04-30",
+            "image_url": "https://str6mwhrbz6t7ge.blob.core.windows.net/images/eef4a0a5-59c4-4fc0-b62d-b8463ed67c7d.jpg"
+        },
+        {
+            "id": "apartment-906-798",
+            "request_type": "plumber",
+            "description": "The faucet in my house is broken.",
+            "is_english": false,
+            "original_description": "我家的水龙头坏了。",
+            "status": "sent",
+            "date": "2025-04-30",
+            "image_url": null
+        },
+        {
+            "id": "apartment-906-331",
+            "request_type": "electrician",
+            "description": "The light bulb in the living room doesn't work.",
+            "is_english": true,
+            "original_description": null,
+            "status": "pending",
+            "date": "2025-04-30",
+            "image_url": null
+        },
+        {
+            "id": "apartment-906-588",
+            "request_type": "electrician",
+            "description": "My house lost power.",
+            "is_english": true,
+            "original_description": null,
+            "status": "pending",
+            "date": "2025-04-30",
+            "image_url": null
+        },
+        {
+            "id": "apartment-906-359",
+            "request_type": "handyman",
+            "description": "My wall has holes in it.",
+            "is_english": true,
+            "original_description": null,
+            "status": "pending",
+            "date": "2025-04-30",
+            "image_url": null
+        },
+        {
+            "id": "apartment-906-991",
+            "request_type": "plumber",
+            "description": "My shower is leaking.",
+            "is_english": true,
+            "original_description": null,
+            "status": "scheduled",
+            "date": "2025-05-16",
+            "image_url": null
+        },
+        {
+            "id": "apartment-906-917",
+            "request_type": "handyman",
+            "description": "my wall has a hole",
+            "is_english": true,
+            "original_description": null,
+            "status": "pending",
+            "date": "2025-04-29",
+            "image_url": null
+        }
+    ],
+    "_rid": "fmVvAKA-kqwQAAAAAAAAAA==",
+    "_self": "dbs/fmVvAA==/colls/fmVvAKA-kqw=/docs/fmVvAKA-kqwQAAAAAAAAAA==/",
+    "_etag": "\"0e008f1a-0000-1a00-0000-68122e330000\"",
+    "_attachments": "attachments/",
+    "_ts": 1746021939
+}
