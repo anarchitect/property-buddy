@@ -11,8 +11,8 @@ from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from payment_data_service import query_azure_sql
 from utils import get_property, process_function_call  # Import the function
 from fileutils import get_all_blobs, upload_feedback  # Import the function
-from function_call_specs import functions  # Import the functions list
-from system_prompt_spec import system_prompt  # Import the system prompt
+from prompts_function_calling import functions  # Import the functions list
+from prompt_system import system_prompt  # Import the system prompt
 
 # Load .env file
 load_dotenv()
