@@ -12,8 +12,6 @@ Say hello to this AI Assistant, who can seamlessly manage property matters for b
 
 ## Technical Architecture
 
-![Property Buddy](assets/PropertyBuddy.png)
-
 - This Python FastAPI app application can be easily deployed to Azure App Service. It deployed ChatGPT model on Azure OpenAI, with OpenAI SDK. 
 - RAG with real time data in Azure SQL and Cosmos DB, for customer's payments maintenance requests respectively. 
 - Neither SQL Queries coded in the chat solution, nor coded rules of maintenance classification or translation. These are all supplied by LLM during the chat. Hence, request can be sent to service provider directly after classified by LLM, without intervention from property managers. 
@@ -21,6 +19,8 @@ Say hello to this AI Assistant, who can seamlessly manage property matters for b
 - User feedback is collected into Blob Storage, will be utilized for continuous Evaluation of agent in future.
 
 🚀 Comparing with traditional applications, it requires much less software maintenance, is more adaptable and flexible, and much faster to market. This means lower license costs for property managers, resulting in reduced fees for tenants and landlords. 
+
+![Property Buddy](assets/PropertyBuddy.png)
 
 ### Resources and setup needed 
 List of environment variables
