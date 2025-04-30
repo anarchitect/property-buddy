@@ -13,12 +13,15 @@ from utils import get_property, process_function_call  # Import the function
 from fileutils import get_all_blobs, upload_feedback  # Import the function
 from prompts_function_calling import functions  # Import the functions list
 from prompt_system import system_prompt  # Import the system prompt
+from fastapi.staticfiles import StaticFiles
 
 # Load .env file
 load_dotenv()
 
 # FastAPI app
 app = FastAPI()
+
+app.mount("/images", StaticFiles(directory="images"), name="images")
 
 client = AzureOpenAI(
     api_version=os.getenv("OPEN_API_VERSION"),
