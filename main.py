@@ -23,6 +23,15 @@ app = FastAPI()
 
 app.mount("/images", StaticFiles(directory="images"), name="images")
 
+# Define the filter function
+def from_json_filter(value):
+    if isinstance(value, bytes):
+        value = value.decode("utf-8")
+    try:
+        return json.loads(value)
+    except Exception as e:
+        return {}  # or log the error
+
 client = AzureOpenAI(
     api_version=os.getenv("OPEN_API_VERSION"),
     azure_endpoint=os.getenv("OPEN_API_BASE"),
@@ -59,6 +68,8 @@ async def get_index():
 @app.get("/myrequests", response_class=HTMLResponse)
 async def show_profile(request: Request):
     templates = Jinja2Templates(directory="templates")
+    templates.env.filters["from_json"] = from_json_filter
+    
     property_id = os.environ["PROPERTY_ID"]
     items = get_property(property_id)
     if not items:
@@ -73,8 +84,10 @@ async def show_profile(request: Request):
 
 @app.get("/mypayments", response_class=HTMLResponse)
 async def get_payments(request: Request):
-    customer_id = os.environ["PROPERTY_ID"]
     templates = Jinja2Templates(directory="templates")
+    templates.env.filters["from_json"] = from_json_filter
+    
+    customer_id = os.environ["PROPERTY_ID"]
     sql = "SELECT amount, due_date, payee, payment_type, status FROM payment WHERE customer_id = {customer_id} ORDER BY due_date ASC;"
     sql_with_customer_id = sql.format(customer_id=f"'{customer_id}'")
     print(f"Getting payment information for {sql_with_customer_id}...")
@@ -132,25 +145,40 @@ async def chat_with_upload(
     return response_data
 
 @app.post("/feedback")
-async def feedback(user_message: str = Form(...), response_text: str = Form(...), feedback: str = Form(...)):
+async def feedback(request: Request, user_message: str = Form(...), response_text: str = Form(...), feedback: str = Form(...)):
     
-    content = (
-        f"Received At: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
-        f"User: {user_message}\n"
-        f"Assistant: {response_text}\n"
-    )
-    upload_feedback(feedback,content.encode('utf-8'))
+    # Get client information
+    user_info = {
+        "client_ip": request.client.host,
+        "user_agent": request.headers.get("user-agent", "Unknown"),
+        "referer": request.headers.get("referer", "Unknown"),
+        "accept_language": request.headers.get("accept-language", "Unknown")
+        }
+    
+    chat_info = {
+        "received_at": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        "user_message": user_message,
+        "assistant_response": response_text
+    }
+    
+    content = {
+        "user_info": user_info,
+        "chat_info": chat_info
+    }
+    
+    upload_feedback(feedback, json.dumps(content, indent=2).encode('utf-8'))
 
     return {"status": "ok"}
 
 
 @app.get("/admin/feedback")
 async def view_feedback(request: Request):
-
+    templates = Jinja2Templates(directory="templates")
+    templates.env.filters["from_json"] = from_json_filter
+    
     positive_feedbacks = get_all_blobs("positivefeedback")
     negative_feedbacks = get_all_blobs("negativefeedback")
 
-    templates = Jinja2Templates(directory="templates")
     return templates.TemplateResponse("feedback_list.html", {
         "request": request,
         "positive_feedbacks": positive_feedbacks,

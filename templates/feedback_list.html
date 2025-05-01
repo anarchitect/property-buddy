@@ -10,6 +10,11 @@
         .content.active { display: block; }
         .feedback { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background: #f9f9f9; }
         .feedback pre { white-space: pre-wrap; word-wrap: break-word; }
+        .chat-info { margin-top: 10px; }
+        .timestamp { color: #666; font-size: 0.9em; }
+        .message { margin: 5px 0; }
+        .user-message { color: #0078d4; }
+        .assistant-message { color: #107c10; }
     </style>
 </head>
 <body>
@@ -25,7 +30,16 @@
         {% for fb in positive_feedbacks %}
             <div class="feedback">
                 <strong>{{ fb.name }}</strong>
-                <pre>{{ fb.content }}</pre>
+                <div class="chat-info">
+                    {% set content = fb.content | from_json %}
+                    {% if content.chat_info is defined %}
+                        <div class="timestamp">Received at: {{ content.chat_info.received_at }}</div>
+                        <div class="message user-message">User: {{ content.chat_info.user_message }}</div>
+                        <div class="message assistant-message">Assistant: {{ content.chat_info.assistant_response }}</div>
+                    {% else %}
+                        <pre>{{ fb.content }}</pre>
+                    {% endif %}
+                </div>
             </div>
         {% endfor %}
     </div>
@@ -34,7 +48,16 @@
         {% for fb in negative_feedbacks %}
             <div class="feedback">
                 <strong>{{ fb.name }}</strong>
-                <pre>{{ fb.content }}</pre>
+                <div class="chat-info">
+                    {% set content = fb.content | from_json %}
+                    {% if content.chat_info is defined %}
+                        <div class="timestamp">Received at: {{ content.chat_info.received_at }}</div>
+                        <div class="message user-message">User: {{ content.chat_info.user_message }}</div>
+                        <div class="message assistant-message">Assistant: {{ content.chat_info.assistant_response }}</div>
+                    {% else %}
+                        <pre>{{ fb.content }}</pre>
+                    {% endif %}
+                </div>
             </div>
         {% endfor %}
     </div>
