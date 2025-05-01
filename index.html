@@ -192,9 +192,84 @@
             margin-top: 0;
             margin-bottom: 15px;
         }
+        .navbar {
+            width: 100%;
+            background: #005ea2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            z-index: 10000;
+        }
+        .nav-list {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-list li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 18px 10px;
+            display: block;
+            border-bottom: 3px solid transparent;
+            transition: border 0.2s, background 0.2s;
+        }
+        .nav-list li a.active, .nav-list li a:hover {
+            border-bottom: 3px solid #FFD700;
+            background: rgba(255,255,255,0.08);
+        }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2em;
+            position: absolute;
+            left: 16px;
+            top: 8px;
+            cursor: pointer;
+            z-index: 10001;
+        }
+        @media (max-width: 768px) {
+            .nav-list {
+                flex-direction: column;
+                background: #005ea2;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                gap: 0;
+                display: none;
+            }
+            .nav-list.open {
+                display: flex;
+            }
+            .nav-list li a {
+                padding: 16px;
+                font-size: 16px;
+                border-bottom: 1px solid #0078d4;
+            }
+            .nav-toggle {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">&#9776;</button>
+    <ul class="nav-list" id="navList">
+        <li><a href="/myrequests">My Requests</a></li>
+        <li><a href="/mypayments">My Payments</a></li>
+        <li><a href="/admin/feedback">Feedback</a></li>
+    </ul>
+</nav>
 
 <!-- Logo Section -->
 <div id="logo">
@@ -341,6 +416,10 @@
             sendMessage();
         }
     });
+
+    function toggleNav() {
+        document.getElementById('navList').classList.toggle('open');
+    }
 </script>
 
 </body>
