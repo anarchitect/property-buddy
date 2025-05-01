@@ -4,8 +4,8 @@
 
 ## Introduction
 Say hello to this AI Assistant, who can seamlessly manage property matters for both apartment/units/townhouse tenants, landlords, and property managers. It can assist you to: 
-- 💵 Ask for your payments details with natural chat.
-- 🛠️ Request maintenance for your property from our preferred service providers, without waiting for property manager at all⏳! Such a seamless service chain! You can also check progress of your asks afterward!
+- 💵 Ask for your payments details with natural chat, such as utility bills.
+- 🛠️ Request maintenance issues for your property, such as plumbing, from our preferred service providers, without waiting for property manager at all⏳! Such a seamless service chain! You can also check progress of your asks afterward!
 - 🌐 Tenants can chat with property buddy with language other than English. And your maintenance request will be created in English, so that service providers can understand it.
 - 📷 Of course you can upload picture when ask for property maintenance! 
 
