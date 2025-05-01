@@ -1,0 +1,86 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">Property Buddy</a>
+        <div class="nav-links">
+            <a href="/myrequests" class="nav-link">My Requests</a>
+            <a href="/mypayments" class="nav-link">My Payments</a>
+            <a href="/admin/feedback" class="nav-link">Feedback</a>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .navbar {
+        background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+    }
+    .nav-logo {
+        color: #0078d4;
+        text-decoration: none;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+    .nav-link {
+        color: #333;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+    .nav-link:hover {
+        background: #f5f5f5;
+        color: #0078d4;
+    }
+    .nav-link.active {
+        background: #0078d4;
+        color: white;
+    }
+    @media (max-width: 768px) {
+        .nav-container {
+            padding: 0 15px;
+            height: 50px;
+        }
+        .nav-logo {
+            font-size: 1.1em;
+        }
+        .nav-links {
+            gap: 10px;
+        }
+        .nav-link {
+            padding: 6px 10px;
+            font-size: 0.9em;
+        }
+    }
+    @media (max-width: 480px) {
+        .nav-container {
+            padding: 0 10px;
+            height: 45px;
+        }
+        .nav-logo {
+            font-size: 1em;
+        }
+        .nav-links {
+            gap: 5px;
+        }
+        .nav-link {
+            padding: 5px 8px;
+            font-size: 0.85em;
+        }
+    }
+</style> 
