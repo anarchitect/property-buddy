@@ -3,63 +3,159 @@
 <head>
     <title>User Feedback</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .tab { display: inline-block; padding: 10px 20px; margin-right: 10px; background: #eee; cursor: pointer; border-radius: 5px; }
-        .tab.active { background: #0078d4; color: white; }
-        .content { display: none; margin-top: 20px; }
-        .content.active { display: block; }
-        .feedback { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background: #f9f9f9; }
-        .feedback pre { white-space: pre-wrap; word-wrap: break-word; }
-        .chat-info { margin-top: 10px; }
-        .timestamp { color: #666; font-size: 0.9em; }
-        .message { margin: 5px 0; }
-        .user-message { color: #0078d4; }
-        .assistant-message { color: #107c10; }
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f5f5;
+        }
+        .tabs-container {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .tab { 
+            display: inline-block; 
+            padding: 12px 24px; 
+            margin-right: 10px; 
+            background: #f5f5f5; 
+            cursor: pointer; 
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #e0e0e0;
+            border-bottom: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            top: 1px;
+        }
+        .tab:hover {
+            background: #e8e8e8;
+        }
+        .tab.active { 
+            background: white; 
+            color: #0078d4;
+            border-color: #e0e0e0;
+            border-bottom: 1px solid white;
+            box-shadow: none;
+        }
+        .content { 
+            display: none; 
+            margin-top: -1px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 0 8px 8px 8px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .content.active { 
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        .feedback { 
+            margin-bottom: 20px; 
+            padding: 15px; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
+            background: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .feedback:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .feedback pre { 
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+            margin: 0;
+            padding: 10px;
+            background: #fff;
+            border-radius: 4px;
+        }
+        .chat-info { 
+            margin-top: 10px; 
+        }
+        .timestamp { 
+            color: #666; 
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        .message { 
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .user-message { 
+            color: #0078d4;
+            background: rgba(0,120,212,0.1);
+        }
+        .assistant-message { 
+            color: #107c10;
+            background: rgba(16,124,16,0.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+        .tab-content-wrapper {
+            background: white;
+            border-radius: 0 8px 8px 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
-
     <h1>User Feedback</h1>
 
-    <div id="tabs">
+    <div class="tabs-container">
         <div class="tab active" onclick="showTab('positive')">👍 Positive Feedback</div>
         <div class="tab" onclick="showTab('negative')">👎 Negative Feedback</div>
     </div>
 
-    <div id="positive" class="content active">
-        {% for fb in positive_feedbacks %}
-            <div class="feedback">
-                <strong>{{ fb.name }}</strong>
-                <div class="chat-info">
-                    {% set content = fb.content | from_json %}
-                    {% if content.chat_info is defined %}
-                        <div class="timestamp">Received at: {{ content.chat_info.received_at }}</div>
-                        <div class="message user-message">User: {{ content.chat_info.user_message }}</div>
-                        <div class="message assistant-message">Assistant: {{ content.chat_info.assistant_response }}</div>
-                    {% else %}
-                        <pre>{{ fb.content }}</pre>
-                    {% endif %}
+    <div class="tab-content-wrapper">
+        <div id="positive" class="content active">
+            {% for fb in positive_feedbacks %}
+                <div class="feedback">
+                    <strong>{{ fb.name }}</strong>
+                    <div class="chat-info">
+                        {% set content = fb.content | from_json %}
+                        {% if content.chat_info is defined %}
+                            <div class="timestamp">Received at: {{ content.chat_info.received_at }}</div>
+                            <div class="message user-message">User: {{ content.chat_info.user_message }}</div>
+                            <div class="message assistant-message">Assistant: {{ content.chat_info.assistant_response }}</div>
+                        {% else %}
+                            <pre>{{ fb.content }}</pre>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
 
-    <div id="negative" class="content">
-        {% for fb in negative_feedbacks %}
-            <div class="feedback">
-                <strong>{{ fb.name }}</strong>
-                <div class="chat-info">
-                    {% set content = fb.content | from_json %}
-                    {% if content.chat_info is defined %}
-                        <div class="timestamp">Received at: {{ content.chat_info.received_at }}</div>
-                        <div class="message user-message">User: {{ content.chat_info.user_message }}</div>
-                        <div class="message assistant-message">Assistant: {{ content.chat_info.assistant_response }}</div>
-                    {% else %}
-                        <pre>{{ fb.content }}</pre>
-                    {% endif %}
+        <div id="negative" class="content">
+            {% for fb in negative_feedbacks %}
+                <div class="feedback">
+                    <strong>{{ fb.name }}</strong>
+                    <div class="chat-info">
+                        {% set content = fb.content | from_json %}
+                        {% if content.chat_info is defined %}
+                            <div class="timestamp">Received at: {{ content.chat_info.received_at }}</div>
+                            <div class="message user-message">User: {{ content.chat_info.user_message }}</div>
+                            <div class="message assistant-message">Assistant: {{ content.chat_info.assistant_response }}</div>
+                        {% else %}
+                            <pre>{{ fb.content }}</pre>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 
     <script>
@@ -71,6 +167,5 @@
             document.getElementById(tabId).classList.add('active');
         }
     </script>
-
 </body>
 </html>
