@@ -21,9 +21,18 @@
             padding: 20px;
             background: #0078d4;
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         #logo img {
             max-height: 50px;
+        }
+        #logo h1 {
+            margin: 0;
+            font-size: 24px;
+            color: white;
         }
         #feedbackPopup {
             position: fixed;
@@ -157,7 +166,7 @@
         }
         .feedback-container {
             display: flex;
-            gap: 10px;
+            gap: 5px;
             margin-top: 5px;
             margin-bottom: 15px;
         }
@@ -168,7 +177,8 @@
 <!-- Logo Section -->
 <div id="logo">
      <img src="/images/propertybuddylogo.png" alt="Property Buddy Logo">
- </div>
+     <h1>Property Buddy</h1>
+</div>
 
 <!-- Feedback popup message -->
 <div id="feedbackPopup">
