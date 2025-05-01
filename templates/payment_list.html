@@ -2,44 +2,120 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payments for {{ customer_id }}</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #f4f4f4; }
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        th, td { 
+            padding: 12px 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th { 
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .status.paid {
+            background-color: #e6f4ea;
+            color: #107c10;
+        }
+        .status.pending {
+            background-color: #fff4ce;
+            color: #856404;
+        }
+        .status.overdue {
+            background-color: #fde7e9;
+            color: #d13438;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.3em;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
-
     <h1>Payments for {{ customer_id }}</h1>
 
     {% if payments %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Amount</th>
-                    <th>Due Date</th>
-                    <th>Payee</th>
-                    <th>Payment Type</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for payment in payments %}
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td>${{ "%.2f"|format(payment.amount) }}</td>
-                        <td>{{ payment.due_date }}</td>
-                        <td>{{ payment.payee }}</td>
-                        <td>{{ payment.payment_type }}</td>
-                        <td>{{ payment.status }}</td>
+                        <th>Amount</th>
+                        <th>Due Date</th>
+                        <th>Payee</th>
+                        <th>Payment Type</th>
+                        <th>Status</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                        <tr>
+                            <td>${{ "%.2f"|format(payment.amount) }}</td>
+                            <td>{{ payment.due_date }}</td>
+                            <td>{{ payment.payee }}</td>
+                            <td>{{ payment.payment_type }}</td>
+                            <td><span class="status {{ payment.status|lower }}">{{ payment.status }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% else %}
         <p>No payments found for this customer.</p>
     {% endif %}
-
 </body>
 </html>

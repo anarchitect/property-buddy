@@ -2,17 +2,133 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Profile - {{ resident.firstName }} {{ resident.lastName }}</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .profile { margin-bottom: 30px; }
-        .orders { margin-top: 20px; }
-        .order { margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
-        .order img { max-width: 300px; margin-top: 10px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f5f5;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+        h3 {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .profile { 
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .profile p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .profile strong {
+            color: #333;
+            min-width: 100px;
+            display: inline-block;
+        }
+        .orders { 
+            margin-top: 20px;
+        }
+        .order { 
+            background: white;
+            margin-bottom: 20px; 
+            padding: 20px; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .order:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .order p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .order strong {
+            color: #333;
+            min-width: 150px;
+            display: inline-block;
+        }
+        .order img { 
+            max-width: 100%;
+            height: auto;
+            margin-top: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .status.completed {
+            background-color: #e6f4ea;
+            color: #107c10;
+        }
+        .status.pending {
+            background-color: #fff4ce;
+            color: #856404;
+        }
+        .status.in-progress {
+            background-color: #e8f0fe;
+            color: #1a73e8;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .profile, .order {
+                padding: 15px;
+            }
+            .profile strong, .order strong {
+                min-width: 120px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .profile, .order {
+                padding: 12px;
+            }
+            .profile strong, .order strong {
+                min-width: 100px;
+                display: block;
+                margin-bottom: 5px;
+            }
+            h1 {
+                font-size: 1.3em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            .order img {
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-
     <div class="profile">
         <h1>{{ resident.firstName }} {{ resident.lastName }}</h1>
         <p><strong>Age:</strong> {{ resident.age }}</p>
@@ -32,7 +148,7 @@
                 {% if order.original_description %}
                     <p><strong>Original Description:</strong> {{ order.original_description }}</p>
                 {% endif %}
-                <p><strong>Status:</strong> {{ order.status }}</p>
+                <p><strong>Status:</strong> <span class="status {{ order.status|lower }}">{{ order.status }}</span></p>
                 <p><strong>Date:</strong> {{ order.date }}</p>
                 {% if order.image_url %}
                     <img src="{{ order.image_url }}" alt="Issue Image">
@@ -46,7 +162,7 @@
                 {% if order.original_description %}
                     <p><strong>Original Description:</strong> {{ order.original_description }}</p>
                 {% endif %}
-                <p><strong>Status:</strong> {{ order.status }}</p>
+                <p><strong>Status:</strong> <span class="status {{ order.status|lower }}">{{ order.status }}</span></p>
                 <p><strong>Date:</strong> {{ order.date }}</p>
                 {% if order.image_url %}
                     <img src="{{ order.image_url }}" alt="Issue Image">
@@ -54,6 +170,5 @@
             </div>
         {% endfor %}
     </div>
-
 </body>
 </html>
